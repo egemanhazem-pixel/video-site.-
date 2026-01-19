@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zaxx Video Library</title>
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; background:#0b0f1a; color:#e5e7eb; }
+    header { padding:1.5rem; background:#020617; box-shadow:0 4px 20px rgba(0,0,0,.4); }
+    header h1 { margin:0; font-size:1.5rem; }
+    .container { max-width:1200px; margin:auto; padding:1.5rem; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:1.5rem; }
+    .card { background:#020617; border-radius:14px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.4); transition:transform .2s ease; }
+    .card:hover { transform: translateY(-6px); }
+    .thumb { width:100%; height:180px; object-fit:cover; background:#111827; }
+    .card-body { padding:1rem; }
+    .card-body h3 { margin:.2rem 0 .5rem; font-size:1.05rem; }
+    .card-body p { margin:0; font-size:.9rem; color:#9ca3af; }
+    .player { position:fixed; inset:0; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:50; }
+    .player video { max-width:90%; max-height:90%; border-radius:12px; background:black; }
+    .close-btn { position:absolute; top:20px; right:20px; background:#020617; border:none; color:#e5e7eb; padding:.6rem 1rem; border-radius:10px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Zaxx Video Library</h1>
+  </header>  <div class="container">
+    <div class="grid" id="videoGrid"></div>
+  </div>  <div class="player" id="player">
+    <button class="close-btn" onclick="closePlayer()">Close</button>
+    <video id="videoPlayer" controls></video>
+  </div>  <script>
+    // Sample videos (replace with your own)
+    const videos = [
+      { title: 'Sample Video 1', desc: 'Demo clip', src: 'videos/video1.mp4', thumb: 'thumbnails/thumb1.jpg' },
+      { title: 'Sample Video 2', desc: 'Nature scene', src: 'videos/video2.mp4', thumb: 'thumbnails/thumb2.jpg' },
+      { title: 'Sample Video 3', desc: 'Cinematic shot', src: 'videos/video3.mp4', thumb: 'thumbnails/thumb3.jpg' }
+    ];
+
+    const grid = document.getElementById('videoGrid');
+    const player = document.getElementById('player');
+    const videoPlayer = document.getElementById('videoPlayer');
+
+    videos.forEach(v => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img class="thumb" src="${v.thumb}" alt="${v.title}">
+        <div class="card-body">
+          <h3>${v.title}</h3>
+          <p>${v.desc}</p>
+        </div>
+      `;
+      card.onclick = () => openPlayer(v.src);
+      grid.appendChild(card);
+    });
+
+    function openPlayer(src) {
+      videoPlayer.src = src;
+      player.style.display = 'flex';
+      videoPlayer.play();
+    }
+
+    function closePlayer() {
+      videoPlayer.pause();
+      videoPlayer.src = '';
+      player.style.display = 'none';
+    }
+  </script></body>
+               </html>
